@@ -1,1 +1,371 @@
+import React, { useState, useEffect } from ‘react’;
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from ‘recharts’;
 
+const SoloFramingOptimizer = () => {
+const [activeTab, setActiveTab] = useState(‘sweet-spot’);
+const [hoursPerWeek, setHoursPerWeek] = useState(40);
+const [avgOrderValue, setAvgOrderValue] = useState(350);
+const [efficiencyLevel, setEfficiencyLevel] = useState(75);
+
+// Calculate metrics based on inputs
+const framesPerWeek = Math.floor((hoursPerWeek * (efficiencyLevel / 100)) / 2.5); // 2.5 hours per frame avg
+const weeklyRevenue = framesPerWeek * avgOrderValue;
+const monthlyRevenue = weeklyRevenue * 4.33;
+const annualRevenue = monthlyRevenue * 12;
+const netProfit = annualRevenue * 0.65; // 65% profit margin
+
+const sweetSpotData = [
+{ scenario: ‘Survival Mode’, frames: 12, revenue: 4200, profit: 2730, hours: 32 },
+{ scenario: ‘Comfortable’, frames: 18, revenue: 6300, profit: 4095, hours: 40 },
+{ scenario: ‘Sweet Spot’, frames: 22, revenue: 7700, profit: 5005, hours: 45 },
+{ scenario: ‘Premium Only’, frames: 15, revenue: 9000, profit: 5850, hours: 38 },
+{ scenario: ‘Max Capacity’, frames: 28, revenue: 9800, profit: 6370, hours: 55 }
+];
+
+const ninjaStrategies = [
+{
+title: “Premium Positioning”,
+description: “Focus only on $500+ jobs. Better margins, fewer frames.”,
+impact: “+40% profit per hour”,
+difficulty: “Medium”,
+color: “#10B981”
+},
+{
+title: “AI Automation”,
+description: “Automate ordering, scheduling, and customer communication.”,
+impact: “+25% efficiency”,
+difficulty: “Low”,
+color: “#3B82F6”
+},
+{
+title: “Mobile Service”,
+description: “Charge $100+ for pickup/delivery. Premium convenience.”,
+impact: “+$2,000/month”,
+difficulty: “Low”,
+color: “#8B5CF6”
+},
+{
+title: “Corporate Contracts”,
+description: “Land 2-3 business accounts for steady volume.”,
+impact: “+50% stability”,
+difficulty: “Medium”,
+color: “#F59E0B”
+},
+{
+title: “Seasonal Scaling”,
+description: “Hire temp help only during peak seasons.”,
+impact: “+30% capacity”,
+difficulty: “Low”,
+color: “#EF4444”
+},
+{
+title: “Franchise Model”,
+description: “License your system to other framers for royalties.”,
+impact: “Passive income”,
+difficulty: “High”,
+color: “#06B6D4”
+}
+];
+
+const profitBreakdown = [
+{ name: ‘Materials’, value: 25, color: ‘#EF4444’ },
+{ name: ‘Labor (You)’, value: 45, color: ‘#10B981’ },
+{ name: ‘Overhead’, value: 10, color: ‘#F59E0B’ },
+{ name: ‘Net Profit’, value: 20, color: ‘#3B82F6’ }
+];
+
+const monthlyProjection = [
+{ month: ‘Jan’, revenue: 24000, expenses: 8400, profit: 15600 },
+{ month: ‘Feb’, revenue: 26000, expenses: 9100, profit: 16900 },
+{ month: ‘Mar’, revenue: 28000, expenses: 9800, profit: 18200 },
+{ month: ‘Apr’, revenue: 30000, expenses: 10500, profit: 19500 },
+{ month: ‘May’, revenue: 32000, expenses: 11200, profit: 20800 },
+{ month: ‘Jun’, revenue: 35000, expenses: 12250, profit: 22750 }
+];
+
+return (
+<div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
+<div className="mb-8">
+<h1 className="text-4xl font-bold text-gray-900 mb-2">Solo Framing Business Optimizer</h1>
+<p className="text-xl text-gray-600">Find your perfect balance of profit, lifestyle, and growth</p>
+</div>
+
+```
+  {/* Tab Navigation */}
+  <div className="flex space-x-1 mb-8 bg-white rounded-lg p-1 shadow-sm">
+    {[
+      { id: 'sweet-spot', label: 'Sweet Spot Analysis' },
+      { id: 'calculator', label: 'Profit Calculator' },
+      { id: 'ninja-strategies', label: 'Ninja Strategies' },
+      { id: 'projections', label: 'Growth Projections' }
+    ].map(tab => (
+      <button
+        key={tab.id}
+        onClick={() => setActiveTab(tab.id)}
+        className={`px-4 py-2 rounded-md font-medium transition-colors ${
+          activeTab === tab.id 
+            ? 'bg-blue-500 text-white' 
+            : 'text-gray-600 hover:text-gray-900'
+        }`}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+
+  {/* Sweet Spot Analysis */}
+  {activeTab === 'sweet-spot' && (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg p-6 shadow-sm">
+        <h2 className="text-2xl font-bold mb-4">Solo Operation Sweet Spots</h2>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={sweetSpotData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="scenario" />
+            <YAxis />
+            <Tooltip formatter={(value, name) => [
+              name === 'profit' ? `$${value}/week` : name === 'revenue' ? `$${value}/week` : value,
+              name === 'profit' ? 'Weekly Profit' : name === 'revenue' ? 'Weekly Revenue' : name === 'frames' ? 'Frames/Week' : 'Hours/Week'
+            ]} />
+            <Bar dataKey="revenue" fill="#3B82F6" name="revenue" />
+            <Bar dataKey="profit" fill="#10B981" name="profit" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {sweetSpotData.slice(1, 4).map((spot, index) => (
+          <div key={index} className={`bg-white rounded-lg p-6 shadow-sm border-l-4 ${
+            index === 1 ? 'border-green-500' : 'border-blue-500'
+          }`}>
+            <h3 className="text-lg font-bold mb-2">{spot.scenario}</h3>
+            <div className="space-y-2 text-sm">
+              <p><span className="font-medium">Frames/Week:</span> {spot.frames}</p>
+              <p><span className="font-medium">Hours/Week:</span> {spot.hours}</p>
+              <p><span className="font-medium">Weekly Revenue:</span> ${spot.revenue.toLocaleString()}</p>
+              <p><span className="font-medium">Weekly Profit:</span> ${spot.profit.toLocaleString()}</p>
+              <p><span className="font-medium">Annual Net:</span> ${(spot.profit * 52).toLocaleString()}</p>
+            </div>
+            {index === 1 && (
+              <div className="mt-3 px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                RECOMMENDED
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {/* Profit Calculator */}
+  {activeTab === 'calculator' && (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg p-6 shadow-sm">
+        <h2 className="text-2xl font-bold mb-6">Your Custom Profit Calculator</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div>
+            <label className="block text-sm font-medium mb-2">Hours per Week</label>
+            <input
+              type="range"
+              min="20"
+              max="60"
+              value={hoursPerWeek}
+              onChange={(e) => setHoursPerWeek(Number(e.target.value))}
+              className="w-full"
+            />
+            <div className="text-center mt-1 font-medium">{hoursPerWeek} hours</div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-2">Average Order Value</label>
+            <input
+              type="range"
+              min="150"
+              max="800"
+              value={avgOrderValue}
+              onChange={(e) => setAvgOrderValue(Number(e.target.value))}
+              className="w-full"
+            />
+            <div className="text-center mt-1 font-medium">${avgOrderValue}</div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-2">Efficiency Level</label>
+            <input
+              type="range"
+              min="50"
+              max="95"
+              value={efficiencyLevel}
+              onChange={(e) => setEfficiencyLevel(Number(e.target.value))}
+              className="w-full"
+            />
+            <div className="text-center mt-1 font-medium">{efficiencyLevel}%</div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="bg-blue-50 rounded-lg p-4 text-center">
+            <div className="text-2xl font-bold text-blue-600">{framesPerWeek}</div>
+            <div className="text-sm text-gray-600">Frames/Week</div>
+          </div>
+          <div className="bg-green-50 rounded-lg p-4 text-center">
+            <div className="text-2xl font-bold text-green-600">${weeklyRevenue.toLocaleString()}</div>
+            <div className="text-sm text-gray-600">Weekly Revenue</div>
+          </div>
+          <div className="bg-purple-50 rounded-lg p-4 text-center">
+            <div className="text-2xl font-bold text-purple-600">${monthlyRevenue.toLocaleString()}</div>
+            <div className="text-sm text-gray-600">Monthly Revenue</div>
+          </div>
+          <div className="bg-yellow-50 rounded-lg p-4 text-center">
+            <div className="text-2xl font-bold text-yellow-600">${Math.round(netProfit).toLocaleString()}</div>
+            <div className="text-sm text-gray-600">Annual Net Profit</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-lg p-6 shadow-sm">
+        <h3 className="text-xl font-bold mb-4">Profit Breakdown</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={profitBreakdown}
+              cx="50%"
+              cy="50%"
+              outerRadius={100}
+              dataKey="value"
+              label={({name, value}) => `${name}: ${value}%`}
+            >
+              {profitBreakdown.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )}
+
+  {/* Ninja Strategies */}
+  {activeTab === 'ninja-strategies' && (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg p-6 shadow-sm">
+        <h2 className="text-2xl font-bold mb-6">Creative Scaling Strategies</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {ninjaStrategies.map((strategy, index) => (
+            <div key={index} className="border rounded-lg p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center mb-3">
+                <div 
+                  className="w-4 h-4 rounded-full mr-3"
+                  style={{ backgroundColor: strategy.color }}
+                ></div>
+                <h3 className="font-bold text-lg">{strategy.title}</h3>
+              </div>
+              <p className="text-gray-600 mb-4">{strategy.description}</p>
+              <div className="flex justify-between items-center">
+                <div className="text-sm">
+                  <span className="font-medium text-green-600">{strategy.impact}</span>
+                </div>
+                <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  strategy.difficulty === 'Low' ? 'bg-green-100 text-green-800' :
+                  strategy.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-red-100 text-red-800'
+                }`}>
+                  {strategy.difficulty}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white">
+        <h3 className="text-2xl font-bold mb-4">🥷 The Ultimate Ninja Move</h3>
+        <p className="text-lg mb-4">
+          Combine Premium Positioning + AI Automation + Mobile Service = 
+          <span className="font-bold"> $300K+ annual revenue working 35 hours/week</span>
+        </p>
+        <div className="bg-white bg-opacity-20 rounded-lg p-4">
+          <p className="font-medium">Strategy: Focus on $600+ corporate work, automate everything else, charge premium for convenience.</p>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {/* Growth Projections */}
+  {activeTab === 'projections' && (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg p-6 shadow-sm">
+        <h2 className="text-2xl font-bold mb-4">6-Month Growth Projection</h2>
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={monthlyProjection}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, '']} />
+            <Line type="monotone" dataKey="revenue" stroke="#3B82F6" strokeWidth={3} name="Revenue" />
+            <Line type="monotone" dataKey="profit" stroke="#10B981" strokeWidth={3} name="Net Profit" />
+            <Line type="monotone" dataKey="expenses" stroke="#EF4444" strokeWidth={2} strokeDasharray="5 5" name="Expenses" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg p-6 shadow-sm">
+          <h3 className="text-xl font-bold mb-4">Year 1 Milestones</h3>
+          <div className="space-y-3">
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+              <span>Month 3: Consistent $25K/month revenue</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+              <span>Month 6: AI automation fully deployed</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
+              <span>Month 9: First corporate contract signed</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full mr-3"></div>
+              <span>Month 12: $300K+ annual run rate</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg p-6 shadow-sm">
+          <h3 className="text-xl font-bold mb-4">Key Success Metrics</h3>
+          <div className="space-y-4">
+            <div className="flex justify-between">
+              <span>Average Order Value</span>
+              <span className="font-bold">$450+</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Customer Retention</span>
+              <span className="font-bold">85%+</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Profit Margin</span>
+              <span className="font-bold">65%+</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Hours per Frame</span>
+              <span className="font-bold">2.0 hours</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Weekly Capacity</span>
+              <span className="font-bold">22 frames</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+```
+
+);
+};
+
+export default SoloFramingOptimizer;
